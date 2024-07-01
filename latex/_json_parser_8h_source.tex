@@ -1,0 +1,296 @@
+\doxysection{Json\+Parser.\+h}
+\hypertarget{_json_parser_8h_source}{}\label{_json_parser_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifndef\ JSON\_PARSER\_H\_}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ JSON\_PARSER\_H\_}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <ctype.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{/*\ definitions\ */}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ MAX\_DEPTH\ 50}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ MAX\_URI\_LEN\ 300}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{comment}{/*\ public\ interface\ */}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct___json_parser}{\_JsonParser}}\ \mbox{\hyperlink{struct___json_parser}{JsonParser}};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{typedef}\ void\ (*TValueInformCallback)(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ key,\ \textcolor{keywordtype}{int}\ keyLen,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ value,\ \textcolor{keywordtype}{int}\ valueLen);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{int}\ JsonParser\_parse(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parser,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ jsonBegin,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ jsonEnd,\ TValueInformCallback\ valueInformCallback);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{comment}{/*\ end\ of\ public\ interface\ */}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{comment}{/*\ private\ part\ */}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ objectUri\ =\ \textcolor{stringliteral}{"{}/"{}};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct___uri_part}{\_UriPart}}}
+\DoxyCodeLine{00055\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ Begin;}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{int}\ len;}
+\DoxyCodeLine{00058\ \}\ \mbox{\hyperlink{struct___uri_part}{UriPart}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct___uri_parts}{\_UriParts}}}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{struct___uri_part}{UriPart}}\ parts[MAX\_DEPTH];}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{int}\ nParts\ =\ 0;}
+\DoxyCodeLine{00064\ \}\ \mbox{\hyperlink{struct___uri_parts}{UriParts}};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keywordtype}{void}\ UriParts\_appendObject(\mbox{\hyperlink{struct___uri_parts}{UriParts}}*\ uriParts);}
+\DoxyCodeLine{00067\ \textcolor{keywordtype}{void}\ UriParts\_drop(\mbox{\hyperlink{struct___uri_parts}{UriParts}}*\ uriParts);}
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{void}\ UriParts\_appendString(\mbox{\hyperlink{struct___uri_parts}{UriParts}}*\ uriParts,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ begin,\ \textcolor{keywordtype}{int}\ len);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct___json_parser}{\_JsonParser}}}
+\DoxyCodeLine{00071\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str\_;}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ end\_;}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{struct___uri_parts}{UriParts}}\ uriParts\_;}
+\DoxyCodeLine{00075\ \ \ \ \ TValueInformCallback\ inform\_;}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{int}\ isInvalid\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00077\ \};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{void}\ JsonParser\_inform(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ begin,\ \textcolor{keywordtype}{int}\ len);}
+\DoxyCodeLine{00080\ \textcolor{keywordtype}{void}\ JsonParser\_parseArray(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance);}
+\DoxyCodeLine{00081\ \textcolor{keywordtype}{void}\ JsonParser\_parseNumber(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance);}
+\DoxyCodeLine{00082\ \textcolor{keywordtype}{void}\ JsonParser\_parseValue(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance);}
+\DoxyCodeLine{00083\ \textcolor{keywordtype}{void}\ JsonParser\_parseString(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance);}
+\DoxyCodeLine{00084\ \textcolor{keywordtype}{void}\ JsonParser\_parseKeyValue(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance);}
+\DoxyCodeLine{00085\ \textcolor{keywordtype}{void}\ JsonParser\_parseObject(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{keywordtype}{int}\ isWhiteSpace(\textcolor{keywordtype}{char}\ c)}
+\DoxyCodeLine{00088\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{return}\ c\ ==\ 0x20\ ||\ c\ ==\ 0x09\ ||\ c\ ==\ 0x0A\ ||\ c\ ==\ 0x0D;}
+\DoxyCodeLine{00090\ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keywordtype}{void}\ UriParts\_appendObject(\mbox{\hyperlink{struct___uri_parts}{UriParts}}*\ uriParts)}
+\DoxyCodeLine{00093\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{struct___uri_part}{UriPart}}\ uri;}
+\DoxyCodeLine{00095\ \ \ \ \ uri.Begin\ =\ objectUri;}
+\DoxyCodeLine{00096\ \ \ \ \ uri.len\ =\ 1;}
+\DoxyCodeLine{00097\ \ \ \ \ uriParts-\/>parts[uriParts-\/>nParts++]\ =\ uri;}
+\DoxyCodeLine{00098\ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{keywordtype}{void}\ UriParts\_drop(\mbox{\hyperlink{struct___uri_parts}{UriParts}}*\ uriParts)}
+\DoxyCodeLine{00101\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ uriParts-\/>nParts-\/-\/;}
+\DoxyCodeLine{00103\ \}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{keywordtype}{void}\ UriParts\_appendString(\mbox{\hyperlink{struct___uri_parts}{UriParts}}*\ uriParts,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ begin,\ \textcolor{keywordtype}{int}\ len)}
+\DoxyCodeLine{00106\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{struct___uri_part}{UriPart}}\ uri;}
+\DoxyCodeLine{00108\ \ \ \ \ uri.Begin\ =\ begin;}
+\DoxyCodeLine{00109\ \ \ \ \ uri.len\ =\ len;}
+\DoxyCodeLine{00110\ \ \ \ \ uriParts-\/>parts[uriParts-\/>nParts++]\ =\ uri;}
+\DoxyCodeLine{00111\ \}}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \textcolor{keywordtype}{void}\ JsonParser\_inform(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ begin,\ \textcolor{keywordtype}{int}\ len)}
+\DoxyCodeLine{00114\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{char}\ uri[MAX\_URI\_LEN];}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ 0;}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ parserInstance-\/>uriParts\_.nParts;\ ++i)}
+\DoxyCodeLine{00118\ \ \ \ \ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ memcpy(uri\ +\ n,\ parserInstance-\/>uriParts\_.parts[i].Begin,\ parserInstance-\/>uriParts\_.parts[i].len);}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ n\ +=\ parserInstance-\/>uriParts\_.parts[i].len;}
+\DoxyCodeLine{00121\ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordflow}{if}\ (!parserInstance-\/>isInvalid)}
+\DoxyCodeLine{00124\ \ \ \ \ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ parserInstance-\/>inform\_(uri,\ n,\ begin,\ len);}
+\DoxyCodeLine{00126\ \ \ \ \ \}}
+\DoxyCodeLine{00127\ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{keywordtype}{void}\ JsonParser\_parseArray(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance)}
+\DoxyCodeLine{00130\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordtype}{int}\ index\ =\ 0;}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[20];}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ ++parserInstance-\/>str\_;}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ parserInstance-\/>str\_\ <\ parserInstance-\/>end\_;)}
+\DoxyCodeLine{00137\ \ \ \ \ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'\(\backslash\)"{}'})}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ UriParts\_appendString(\&parserInstance-\/>uriParts\_,\ buffer,\ sprintf(buffer,\ \textcolor{stringliteral}{"{}[\%d]"{}},\ index++));}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseString(parserInstance);}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ UriParts\_drop(\&parserInstance-\/>uriParts\_);}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isdigit(*parserInstance-\/>str\_)\ ||\ *parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'-\/'})}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseNumber(parserInstance);}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'\{'})}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ UriParts\_appendString(\&parserInstance-\/>uriParts\_,\ buffer,\ sprintf(buffer,\ \textcolor{stringliteral}{"{}[\%d]"{}},\ index++));}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseObject(parserInstance);}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ UriParts\_drop(\&parserInstance-\/>uriParts\_);}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'['})}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseArray(parserInstance);}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{']'})}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ ++parserInstance-\/>str\_;}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ ++parserInstance-\/>str\_;}
+\DoxyCodeLine{00168\ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00170\ \}}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \textcolor{keywordtype}{void}\ JsonParser\_parseNumber(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance)}
+\DoxyCodeLine{00173\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ parserInstance-\/>str\_\ <\ parserInstance-\/>end\_;\ ++parserInstance-\/>str\_)}
+\DoxyCodeLine{00175\ \ \ \ \ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (not\ isdigit(*parserInstance-\/>str\_))}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00178\ \ \ \ \ \}}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00180\ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \textcolor{keywordtype}{void}\ JsonParser\_parseValue(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance)}
+\DoxyCodeLine{00183\ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ parserInstance-\/>str\_\ <\ parserInstance-\/>end\_\ \&\&\ !parserInstance-\/>isInvalid;\ ++parserInstance-\/>str\_)}
+\DoxyCodeLine{00185\ \ \ \ \ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'\(\backslash\)"{}'})}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ beginValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseString(parserInstance);}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ endValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_inform(parserInstance,\ beginValue,\ endValue\ -\/\ beginValue);}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isdigit(*parserInstance-\/>str\_)\ ||\ *parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'-\/'})}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ beginValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseNumber(parserInstance);}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ endValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_inform(parserInstance,\ beginValue,\ endValue\ -\/\ beginValue);}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'\{'})}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ beginValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ ++parserInstance-\/>str\_;}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseObject(parserInstance);}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ endValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_inform(parserInstance,\ beginValue,\ endValue\ -\/\ beginValue);}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'['})}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ beginValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseArray(parserInstance);}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ endValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_inform(parserInstance,\ beginValue,\ endValue\ -\/\ beginValue);}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((parserInstance-\/>end\_\ -\/\ parserInstance-\/>str\_\ >=\ 4)\ \&\&\ (0\ ==\ strncmp(parserInstance-\/>str\_,\ \textcolor{stringliteral}{"{}true"{}},\ 4)))}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ beginValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ parserInstance-\/>str\_\ +=\ 4;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ endValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_inform(parserInstance,\ beginValue,\ endValue\ -\/\ beginValue);}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((parserInstance-\/>end\_\ -\/\ parserInstance-\/>str\_\ >=\ 4)\ \&\&\ (0\ ==\ strncmp(parserInstance-\/>str\_,\ \textcolor{stringliteral}{"{}null"{}},\ 4)))}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ beginValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ parserInstance-\/>str\_\ +=\ 4;}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ endValue\ =\ parserInstance-\/>str\_;}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_inform(parserInstance,\ beginValue,\ endValue\ -\/\ beginValue);}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isWhiteSpace(*parserInstance-\/>str\_))}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ parserInstance-\/>isInvalid\ =\ 1;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00239\ \ \ \ \ \}}
+\DoxyCodeLine{00240\ \ \ \ \ parserInstance-\/>isInvalid\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00241\ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \textcolor{keywordtype}{void}\ JsonParser\_parseString(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance)}
+\DoxyCodeLine{00244\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ ++parserInstance-\/>str\_;}
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ parserInstance-\/>str\_\ <\ parserInstance-\/>end\_;\ ++parserInstance-\/>str\_)}
+\DoxyCodeLine{00247\ \ \ \ \ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'\(\backslash\)"{}'})}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ ++parserInstance-\/>str\_;}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00253\ \ \ \ \ \}}
+\DoxyCodeLine{00254\ \}}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \textcolor{keywordtype}{void}\ JsonParser\_parseKeyValue(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance)}
+\DoxyCodeLine{00257\ \{}
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ beginKey\ =\ parserInstance-\/>str\_\ +\ 1;}
+\DoxyCodeLine{00259\ \ \ \ \ JsonParser\_parseString(parserInstance);}
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ endKey\ =\ parserInstance-\/>str\_\ -\/\ 1;}
+\DoxyCodeLine{00261\ \ \ \ \ UriParts\_appendString(\&parserInstance-\/>uriParts\_,\ beginKey,\ endKey\ -\/\ beginKey);}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ parserInstance-\/>str\_\ <\ parserInstance-\/>end\_;\ ++parserInstance-\/>str\_)}
+\DoxyCodeLine{00264\ \ \ \ \ \{}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{':'})}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ ++parserInstance-\/>str\_;}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseValue(parserInstance);}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ UriParts\_drop(\&parserInstance-\/>uriParts\_);}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00273\ \ \ \ \ \}}
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00275\ \}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \textcolor{keywordtype}{void}\ JsonParser\_parseObject(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parserInstance)}
+\DoxyCodeLine{00278\ \{}
+\DoxyCodeLine{00279\ \ \ \ \ UriParts\_appendObject(\&parserInstance-\/>uriParts\_);}
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ parserInstance-\/>str\_\ <\ parserInstance-\/>end\_\ \&\&\ !parserInstance-\/>isInvalid;)}
+\DoxyCodeLine{00281\ \ \ \ \ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'\(\backslash\)"{}'})}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ JsonParser\_parseKeyValue(parserInstance);}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*parserInstance-\/>str\_\ ==\ \textcolor{charliteral}{'\}'})}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ UriParts\_drop(\&parserInstance-\/>uriParts\_);}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ ++parserInstance-\/>str\_;}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isWhiteSpace(*parserInstance-\/>str\_))}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ parserInstance-\/>isInvalid\ =\ 1;}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ ++parserInstance-\/>str\_;}
+\DoxyCodeLine{00298\ \ \ \ \ \}}
+\DoxyCodeLine{00299\ \ \ \ \ parserInstance-\/>isInvalid\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00300\ \}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \textcolor{keywordtype}{int}\ JsonParser\_parse(\mbox{\hyperlink{struct___json_parser}{JsonParser}}*\ parser,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ jsonBegin,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ jsonEnd,\ TValueInformCallback\ valueInformCallback)}
+\DoxyCodeLine{00303\ \{}
+\DoxyCodeLine{00304\ \ \ \ \ parser-\/>str\_\ =\ jsonBegin;}
+\DoxyCodeLine{00305\ \ \ \ \ parser-\/>end\_\ =\ jsonEnd;}
+\DoxyCodeLine{00306\ \ \ \ \ parser-\/>inform\_\ =\ valueInformCallback;}
+\DoxyCodeLine{00307\ \ \ \ \ parser-\/>uriParts\_.nParts\ =\ 0;}
+\DoxyCodeLine{00308\ \ \ \ \ parser-\/>isInvalid\ =\ 0;}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \ \ \ \ JsonParser\_parseValue(parser);}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \ \ \textcolor{keywordflow}{return}\ parser-\/>uriParts\_.nParts\ !=\ 0\ ||\ parser-\/>isInvalid;}
+\DoxyCodeLine{00313\ \}}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \textcolor{comment}{/*\ end\ of\ private\ part\ */}}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00317\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !JSON\_PARSER\_H\_}}
+
+\end{DoxyCode}
