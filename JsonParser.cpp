@@ -329,3 +329,19 @@ BOOST_AUTO_TEST_CASE(shall_parse_example_3)
     BOOST_TEST(0 == JsonParser_parse(&parser, s.c_str(), s.c_str() + s.size(), check));
     BOOST_TEST(0 == expectations.size());
 }
+
+BOOST_AUTO_TEST_CASE(shallNotCrashIfKeysAreLong)
+{
+    std::string s = R"^^^({ "veryLongStringToOverloadKey_veryLongStringToOverloadKeyveryLongStringToOverloadKey_veryLongStringToOverloadKey_veryLongStringToOverloadKey_veryLongStringToOverloadKey_veryLongStringToOverloadKey_veryLongStringToOverloadKey_veryLongStringToOverloadKey": { "someAnotherVeryLongStringToOveloadBuffer_someAnotherVeryLongStringToOveloadBuffer_someAnotherVeryLongStringToOveloadBuffer_someAnotherVeryLongStringToOveloadBuffer_someAnotherVeryLongStringToOveloadBuffer" : { "andYetAnotherVeryLongStringJustToMakeThingHard_andYetAnotherVeryLongStringJustToMakeThingHard" : "value" } } })^^^";
+
+    JsonParser parser;
+    BOOST_TEST(1 == JsonParser_parse(&parser, s.c_str(), s.c_str() + s.size(), doNothing));
+}
+
+BOOST_AUTO_TEST_CASE(shallNotCrashForDeepJson)
+{
+    std::string s = R"^^^({ "a": { "b": { "c": { "d": { "e": { "f": { "g": { "h" : { "i" : { "j": { "k": { "l": { "m": { "n": { "o": { "p" :{ "r": { "s": { "t": { "u" : { "w": { "y" : { "z": { "aa" : { "ab": {} } } } } } } } } } } } } } } } } } } } } } } } } })^^^";
+
+    JsonParser parser;
+    BOOST_TEST(1 == JsonParser_parse(&parser, s.c_str(), s.c_str() + s.size(), doNothing));
+}

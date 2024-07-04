@@ -18,7 +18,7 @@
 
 /* definitions */
 #define MAX_DEPTH 50
-#define MAX_URI_LEN 300
+#define MAX_URI_LEN 500
 
 /* public interface */
 
@@ -65,7 +65,7 @@ typedef struct _UriPart
 typedef struct _UriParts
 {
 	UriPart parts[MAX_DEPTH];
-	int nParts = 0;
+	int nParts;
 } UriParts;
 
 int UriParts_appendObject(UriParts* uriParts);
@@ -161,7 +161,7 @@ void JsonParser_parseArray(JsonParser* parserInstance)
 		return;
 	}
 
-	for (; parserInstance->str_ < parserInstance->end_ && not parserInstance->isInvalid;)
+	for (; parserInstance->str_ < parserInstance->end_ && ! parserInstance->isInvalid;)
 	{
 		JsonParser_consumeWhiteSpaces(parserInstance);
 		if (!UriParts_appendString(&parserInstance->uriParts_, buffer, sprintf(buffer, "[%d]", index)))
@@ -201,7 +201,7 @@ void JsonParser_parseNumber(JsonParser* parserInstance)
 	++parserInstance->str_;
 	for (; parserInstance->str_ < parserInstance->end_; ++parserInstance->str_)
 	{
-		if (not isdigit(*parserInstance->str_) )
+		if (! isdigit(*parserInstance->str_) )
 			break;
 	}
 	if (parserInstance->str_ != parserInstance->end_ && *parserInstance->str_ == '.')
@@ -214,7 +214,7 @@ void JsonParser_parseNumber(JsonParser* parserInstance)
 		++parserInstance->str_;
 		for (; parserInstance->str_ < parserInstance->end_; ++parserInstance->str_)
 		{
-			if (not isdigit(*parserInstance->str_))
+			if (! isdigit(*parserInstance->str_))
 				break;
 		}
 	}
@@ -236,14 +236,14 @@ void JsonParser_parseNumber(JsonParser* parserInstance)
 			}
 			++parserInstance->str_;
 		}
-		if (not isdigit(*parserInstance->str_))
+		if (! isdigit(*parserInstance->str_))
 		{
 			parserInstance->isInvalid = 1;
 			return;
 		}
 		for (; parserInstance->str_ < parserInstance->end_; ++parserInstance->str_)
 		{
-			if (not isdigit(*parserInstance->str_))
+			if (! isdigit(*parserInstance->str_))
 				break;
 		}
 	}
@@ -329,42 +329,14 @@ void JsonParser_parseValue(JsonParser* parserInstance)
 void JsonParser_parseExcapedChar(JsonParser* parserInstance)
 {
 	++parserInstance->str_;
-	if (*parserInstance->str_ == '\"')
-	{
-		++parserInstance->str_;
-		return;
-	}
-	if (*parserInstance->str_ == '\\')
-	{
-		++parserInstance->str_;
-		return;
-	}
-	if (*parserInstance->str_ == '\/')
-	{
-		++parserInstance->str_;
-		return;
-	}
-	if (*parserInstance->str_ == '\b')
-	{
-		++parserInstance->str_;
-		return;
-	}
-	if (*parserInstance->str_ == '\f')
-	{
-		++parserInstance->str_;
-		return;
-	}
-	if (*parserInstance->str_ == '\n')
-	{
-		++parserInstance->str_;
-		return;
-	}
-	if (*parserInstance->str_ == '\r')
-	{
-		++parserInstance->str_;
-		return;
-	}
-	if (*parserInstance->str_ == '\t')
+	if (*parserInstance->str_ == '\"'
+		|| *parserInstance->str_ == '\\'
+		|| *parserInstance->str_ == '\/'
+		|| *parserInstance->str_ == '\b'
+		|| *parserInstance->str_ == '\f'
+		|| *parserInstance->str_ == '\n'
+		|| *parserInstance->str_ == '\r'
+		|| *parserInstance->str_ == '\t')
 	{
 		++parserInstance->str_;
 		return;
